@@ -30,7 +30,7 @@ export default defineComponent({
 
       let fight = Number($store.state.eso.route.params.fight);
       // If failed to convert - take the last fight id
-      if (!fight && $store.state.eso.log.fights) {
+      if (!fight && $store.state.eso.log.fights && log) {
         const len = $store.state.eso.log.fights.length;
         fight = $store.state.eso.log.fights[len - 1].id;
       }
