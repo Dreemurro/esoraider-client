@@ -81,7 +81,7 @@ module.exports = configure(function (ctx) {
       env: {
         API: ctx.dev
         ? 'http://127.0.0.1:5000/'
-        : 'http://neuromancersh0me.asuscomm.com:5000/'
+        : 'https://neuromancersh0me.asuscomm.com:5000/'
       }
     },
 
