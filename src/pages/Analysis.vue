@@ -1,0 +1,116 @@
+<template>
+  <q-page padding class="q-gutter-sm bg-grey-3">
+    <template v-if="loading">
+      <q-spinner size="50px" class="absolute-center" />
+    </template>
+
+    <template v-else-if="Object.keys(error).length !== 0">
+      <error-banner :error="error" />
+    </template>
+
+    <template v-else>
+      <template v-if="Object.keys(currentChar.skills).length !== 0">
+        <q-card bordered>
+          <q-expansion-item
+            default-opened
+            switch-toggle-side
+            label="Skills & Uptimes"
+          >
+            <template v-for="(skill, i) in currentChar.skills" :key="i">
+              <skill :skill="skill" />
+            </template>
+          </q-expansion-item>
+        </q-card>
+      </template>
+
+      <template v-else>
+        <q-banner class="bg-yellow-3">
+          <template v-slot:avatar>
+            <q-icon name="warning_amber" />
+          </template>
+          Character skills were not found. This log is probably broken
+        </q-banner>
+      </template>
+
+      <template v-if="Object.keys(currentChar.skills).length !== 0">
+        <q-card bordered>
+          <q-expansion-item
+            default-opened
+            switch-toggle-side
+            label="Sets & Uptimes"
+          >
+            <template v-for="(gearSet, i) in currentChar.sets" :key="i">
+              <gear-set :gearSet="gearSet" />
+            </template>
+          </q-expansion-item>
+        </q-card>
+      </template>
+
+      <template v-else>
+        <q-banner class="bg-yellow-3">
+          <template v-slot:avatar>
+            <q-icon name="warning_amber" />
+          </template>
+          Character sets were not found. This log is probably broken
+        </q-banner>
+      </template>
+    </template>
+  </q-page>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'src/store';
+import Skill from 'components/Skill.vue';
+import GearSet from 'components/GearSet.vue';
+import ErrorBanner from 'components/ErrorBanner.vue';
+import { AxiosError } from 'axios';
+import { useMeta } from 'quasar';
+
+export default defineComponent({
+  name: 'analysis',
+  components: { Skill, GearSet, ErrorBanner },
+  setup() {
+    const $store = useStore();
+    const title = ref('');
+    const loading = ref(true);
+    const currentChar = ref({});
+    const error = ref({} as AxiosError);
+
+    useMeta(() => {
+      return {
+        title: title.value,
+        titleTemplate: (title) => `${title} | ESO Raider`,
+      };
+    });
+
+    const analysisRequest = async () => {
+      const route = useRoute();
+      await $store.dispatch('eso/requestAnalysis', {
+        log: <string>route.params.log,
+        fight: route.params.fight,
+        char: Number(route.params.char),
+      });
+      currentChar.value = $store.state.eso.char;
+
+      error.value = $store.state.eso.error;
+      if (Object.keys(error.value).length === 0) {
+        title.value = $store.state.eso.char.char.name;
+      } else {
+        title.value = 'Error';
+      }
+
+      loading.value = false;
+    };
+
+    onMounted(analysisRequest);
+
+    return {
+      loading,
+      currentChar,
+      error,
+    };
+  },
+});
+</script>
