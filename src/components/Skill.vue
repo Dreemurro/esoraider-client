@@ -50,7 +50,9 @@
         </template>
       </q-expansion-item>
     </template>
-    <q-item-section>ADVICE HERE</q-item-section>
+    <template v-if="skill.advice">
+      <q-item-section>{{ skill.advice }}</q-item-section>
+    </template>
   </q-expansion-item>
 </template>
 
