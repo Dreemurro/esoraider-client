@@ -17,7 +17,14 @@
       </q-item-section>
       <template v-if="skill.uptime !== null">
         <q-item-section class="col-1 items-end">
-          {{ skill.uptime }}%
+          <template v-if="skill.uptime > 100">
+            <em>{{ skill.uptime }}%</em>
+            <q-tooltip>
+              Total number of ticks on all enemies can be higher than fight
+              length
+            </q-tooltip>
+          </template>
+          <template v-else> {{ skill.uptime }}% </template>
         </q-item-section>
         <q-item-section>
           <q-linear-progress :value="skill.uptime / 100" />
