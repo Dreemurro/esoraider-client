@@ -34,6 +34,7 @@ const mutation: MutationTree<EsoStateInterface> = {
       )?.name;
       if (difficultyName)
         fight.displayName = `${fight.name} (${difficultyName})`;
+      else fight.displayName = `${fight.name}`;
     });
   },
   setRoute(state, route: RouteLocationNormalized) {
