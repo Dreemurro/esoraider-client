@@ -55,8 +55,17 @@ const mutation: MutationTree<EsoStateInterface> = {
   ) {
     state.fights[payload.fight_id] = payload.fight;
   },
+  purgeLog(state) {
+    state.log = {} as Report;
+  },
+  purgeFight(state) {
+    state.fight = {} as Table;
+  },
   purgeFights(state) {
     state.fights = [] as Table[];
+  },
+  purgeAnalysis(state) {
+    state.char = {} as AnalysisInfo;
   },
   setError(state, error: AxiosError) {
     state.error = error;

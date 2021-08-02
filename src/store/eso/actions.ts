@@ -11,6 +11,7 @@ import _without from 'lodash/without';
 const actions: ActionTree<EsoStateInterface, StateInterface> = {
   async requestLog({ dispatch, commit, state }, log: string) {
     commit('clearError');
+    await dispatch('cleanUp');
 
     if (Object.keys(state.log).length !== 0 && state.log.code === log) {
       return;
@@ -153,6 +154,12 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     } catch (err) {
       commit('setError', err);
     }
+  },
+  cleanUp({ commit }) {
+    commit('purgeLog');
+    commit('purgeFight');
+    commit('purgeFights');
+    commit('purgeAnalysis');
   },
 };
 
