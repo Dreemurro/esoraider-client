@@ -192,9 +192,22 @@ export interface GearSet {
   debuffs?: Buff[];
 }
 
+export interface Glyph {
+  name: string;
+  id: number;
+  link: string;
+  icon: string;
+
+  uptime?: number;
+  buffs?: Buff[];
+  debuffs?: Buff[];
+  advice?: string;
+}
+
 export interface AnalysisInfo {
   skills: Skill[];
   sets: GearSet[];
+  glyphs: Glyph[];
   char: {
     id: number;
     name: string;

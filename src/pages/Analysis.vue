@@ -54,6 +54,20 @@
           Character sets were not found. This log is probably broken
         </q-banner>
       </template>
+
+      <template v-if="Object.keys(currentChar.glyphs).length !== 0">
+        <q-card bordered>
+          <q-expansion-item
+            default-opened
+            switch-toggle-side
+            label="Glyphs & Uptimes"
+          >
+            <template v-for="(glyph, i) in currentChar.glyphs" :key="i">
+              <glyph :glyph="glyph" />
+            </template>
+          </q-expansion-item>
+        </q-card>
+      </template>
     </template>
   </q-page>
 </template>
@@ -64,13 +78,14 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'src/store';
 import Skill from 'components/Skill.vue';
 import GearSet from 'components/GearSet.vue';
+import Glyph from 'src/components/Glyph.vue';
 import ErrorBanner from 'components/ErrorBanner.vue';
 import { AxiosError } from 'axios';
 import { useMeta } from 'quasar';
 
 export default defineComponent({
   name: 'analysis',
-  components: { Skill, GearSet, ErrorBanner },
+  components: { Skill, GearSet, ErrorBanner, Glyph },
   setup() {
     const $store = useStore();
     const title = ref('');
