@@ -118,7 +118,7 @@ module.exports = configure(function (ctx) {
 
     // 
     htmlVariables: {
-      productName: 'ESO Raider',
+      productName: 'ESO Raider — performance analysis tool',
       productDescription: 'ESO Raider is a performance analysis and suggestion tool to help you improve your Elder Scrolls Online raiding performance',
     },
 
