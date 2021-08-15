@@ -160,6 +160,17 @@ export interface Table {
   };
 }
 
+export interface Stack {
+  name: string;
+  id: number;
+  icon: string;
+  max_stacks: number;
+  type_: string;
+  uptime: Record<number, number>;
+  buffs?: Buff[];
+  debuffs?: Buff[];
+}
+
 export interface Buff {
   name: string;
   id: number;
@@ -167,6 +178,7 @@ export interface Buff {
   advice?: string;
   optimal_uptime?: number;
   uptime?: number;
+  stack?: Stack;
 }
 
 export interface Skill {
