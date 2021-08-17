@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from 'vue';
 import { AxiosError } from 'axios';
-import { Fight, Report, GroupedFights } from 'components/models';
+import { FightData, Report, GroupedFights } from 'components/models';
 import { useRoute } from 'vue-router';
 import { useStore } from 'src/store';
 import { useMeta } from 'quasar';
@@ -40,7 +40,7 @@ import _map from 'lodash/map';
 import ZoneCard from 'components/ZoneCard.vue';
 import ErrorBanner from 'src/components/ErrorBanner.vue';
 
-function grouping(fights: Fight[]): GroupedFights[] {
+function grouping(fights: FightData[]): GroupedFights[] {
   const grouped: GroupedFights[] = _map(
     _groupBy(fights, (fight) => fight.gameZone.name),
     (value, key) => ({ name: key, fights: value })
@@ -79,16 +79,20 @@ export default defineComponent({
 
     const fightsRequest = async () => {
       const route = useRoute();
-      await $store.dispatch('eso/requestLog', <string>route.params.log);
-      currentLog.value = $store.state.eso.log;
+
+      const logCode = <string>route.params.log;
+      await $store.dispatch('eso/requestLog', logCode);
 
       error.value = $store.state.eso.error;
-      if (Object.keys(error.value).length === 0) {
-        title.value = $store.state.eso.log.title;
-      } else {
+      if (Object.keys(error.value).length !== 0) {
         title.value = 'Error';
+        loading.value = false;
+        return;
       }
 
+      const requestedLog = $store.state.eso.logs[logCode].data;
+      currentLog.value = requestedLog;
+      title.value = requestedLog.title;
       loading.value = false;
     };
 

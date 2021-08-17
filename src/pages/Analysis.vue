@@ -102,20 +102,28 @@ export default defineComponent({
 
     const analysisRequest = async () => {
       const route = useRoute();
+
+      const logCode = <string>route.params.log;
+      const fightId = Number(route.params.fight);
+      const charId = Number(route.params.char);
+
       await $store.dispatch('eso/requestAnalysis', {
-        log: <string>route.params.log,
-        fight: route.params.fight,
-        char: Number(route.params.char),
+        log: logCode,
+        fight: fightId,
+        char: charId,
       });
-      currentChar.value = $store.state.eso.char;
 
       error.value = $store.state.eso.error;
-      if (Object.keys(error.value).length === 0) {
-        title.value = $store.state.eso.char.char.name;
-      } else {
+      if (Object.keys(error.value).length !== 0) {
         title.value = 'Error';
+        return;
       }
 
+      const currentLog = $store.state.eso.logs[logCode];
+      const currentFight = currentLog.fights[fightId];
+      const requestedChar = currentFight.chars[charId];
+      currentChar.value = requestedChar;
+      title.value = requestedChar.char.name;
       loading.value = false;
     };
 

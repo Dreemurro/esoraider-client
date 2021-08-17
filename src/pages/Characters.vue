@@ -119,9 +119,11 @@ export default defineComponent({
     const fightRequest = async () => {
       const route = useRoute();
 
+      const logCode = <string>route.params.log;
+      const fightId = Number(route.params.fight);
       await $store.dispatch('eso/requestFight', {
-        log: <string>route.params.log,
-        fight: route.params.fight,
+        log: logCode,
+        fight: fightId,
       });
 
       error.value = $store.state.eso.error;
@@ -131,16 +133,11 @@ export default defineComponent({
         return;
       }
 
-      currentFight.value = $store.state.eso.fight;
+      const currentLog = $store.state.eso.logs[logCode];
+      const requestedFight = currentLog.fights[fightId];
+      currentFight.value = requestedFight;
 
-      let fightId = Number(route.params.fight);
-      if (!fightId) {
-        // If failed to convert - take the last fight id
-        const len = $store.state.eso.log.fights.length;
-        fightId = $store.state.eso.log.fights[len - 1].id;
-      }
-
-      let fightName = $store.state.eso.log.fights.find(
+      let fightName = currentLog.data.fights.find(
         (x) => x.id === fightId
       )?.displayName;
       title.value = fightName ? fightName : '';
@@ -148,17 +145,17 @@ export default defineComponent({
       specs.value.push({
         name: 'Tanks',
         icon: 'images/role/tank.webp',
-        players: $store.state.eso.fight.data.playerDetails['tanks'],
+        players: requestedFight.data.playerDetails['tanks'],
       });
       specs.value.push({
         name: 'Healers',
         icon: 'images/role/healer.webp',
-        players: $store.state.eso.fight.data.playerDetails['healers'],
+        players: requestedFight.data.playerDetails['healers'],
       });
       specs.value.push({
         name: 'DDs',
         icon: 'images/role/dd.webp',
-        players: $store.state.eso.fight.data.playerDetails['dps'],
+        players: requestedFight.data.playerDetails['dps'],
       });
 
       loading.value = false;

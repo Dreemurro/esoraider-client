@@ -1,8 +1,20 @@
+interface Log {
+  data: Report;
+  fights: Fights;
+}
+interface Fight {
+  data: TableData;
+  chars: Chars;
+}
+type Chars = Record<number, AnalysisInfo>;
+type Fights = Record<number, Fight>;
+export type Logs = Record<string, Log>;
+
 interface GameZone {
   name: string;
 }
 
-export interface Fight {
+export interface FightData {
   id: number;
   name: string;
   difficulty: number;
@@ -22,7 +34,7 @@ export interface Fight {
 
 export interface GroupedFights {
   name: string;
-  fights: Fight[];
+  fights: FightData[];
 }
 
 interface Owner {
@@ -34,7 +46,7 @@ export interface Report {
   title: string;
   endTime: number;
   owner: Owner;
-  fights: Array<Fight>;
+  fights: Array<FightData>;
 }
 
 interface Difficulty {
@@ -140,23 +152,21 @@ export interface CharacterInfo {
   combatantInfo: CombatantInfo;
 }
 
-export interface Table {
-  data: {
-    totalTime: number;
-    itemLevel: number;
-    logVersion: number;
-    gameVersion: number;
-    composition: CompositionInfo[];
-    combatantInfo?: CombatantInfo;
-    damageDone: DoneTotalInfo[];
-    healingDone: DoneTotalInfo[];
-    damageTaken: DamageTakenInfo[];
-    deathEvents: DeathEventsInfo[];
-    playerDetails: {
-      dps: CharacterInfo[];
-      healers: CharacterInfo[];
-      tanks: CharacterInfo[];
-    };
+export interface TableData {
+  totalTime: number;
+  itemLevel: number;
+  logVersion: number;
+  gameVersion: number;
+  composition: CompositionInfo[];
+  combatantInfo?: CombatantInfo;
+  damageDone: DoneTotalInfo[];
+  healingDone: DoneTotalInfo[];
+  damageTaken: DamageTakenInfo[];
+  deathEvents: DeathEventsInfo[];
+  playerDetails: {
+    dps: CharacterInfo[];
+    healers: CharacterInfo[];
+    tanks: CharacterInfo[];
   };
 }
 

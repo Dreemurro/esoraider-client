@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { api } from 'boot/axios';
-import { AnalysisInfo, Encounter, Report, Table } from 'components/models';
+import { AnalysisInfo, Encounter, Report, TableData } from 'components/models';
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { EsoStateInterface } from './state';
@@ -11,18 +11,14 @@ import _without from 'lodash/without';
 const actions: ActionTree<EsoStateInterface, StateInterface> = {
   async requestLog({ dispatch, commit, state }, log: string) {
     commit('clearError');
-    await dispatch('cleanUp');
 
-    if (Object.keys(state.log).length !== 0 && state.log.code === log) {
-      return;
-    }
+    if (state.logs[log]) return;
 
     try {
       const response: AxiosResponse = await api.get(`/${log}`);
-      commit('purgeFights');
-      commit('setLog', response.data as Report);
-      commit('setFightDurations');
-      await dispatch('setFightsDisplayNames');
+      commit('addLog', response.data as Report);
+      commit('setFightDurations', log);
+      await dispatch('setFightsDisplayNames', log);
     } catch (err) {
       commit('setError', err);
     }
@@ -44,10 +40,10 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       encounters.push(response.data)
     );
 
-    commit('setEncounters', encounters);
+    commit('addEncounters', encounters);
   },
   // TODO: Either move to server- or client-side with enums
-  async setFightsDisplayNames({ dispatch, commit, state }) {
+  async setFightsDisplayNames({ dispatch, commit, state }, log: string) {
     const toExclude = [0]; // Exclude encounterID = 0, it's a trash fight
     Object.values(state.encounters).forEach((encounter) =>
       toExclude.push(encounter.id)
@@ -55,54 +51,48 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
 
     const uniqueEncounters = _uniq(
       _without(
-        _map(state.log.fights, (fight) => fight.encounterID),
+        _map(state.logs[log].data.fights, (fight) => fight.encounterID),
         ...toExclude
       )
     );
 
     await dispatch('requestEncounters', uniqueEncounters);
-    commit('setDisplayNames');
+    commit('setDisplayNames', log);
   },
   async requestFight(
     { commit, dispatch, state },
     payload: {
       log: string;
-      fight: string;
+      fight: number;
     }
   ) {
     commit('clearError');
 
-    if (Object.keys(state.log).length === 0) {
+    let currentLog = state.logs[payload.log];
+    if (!currentLog) {
       await dispatch('requestLog', payload.log);
       if (Object.keys(state.error).length !== 0) return;
+      currentLog = state.logs[payload.log];
     }
 
-    // If failed to convert (i.e. fight = 'last') - take the last fight id
-    let fightId = Number(payload.fight);
-    if (!fightId) {
-      fightId = state.log.fights[state.log.fights.length - 1].id;
-    }
+    if (currentLog.fights[payload.fight]) return;
 
-    if (Object.keys(state.fights).length !== 0 && state.fights[fightId]) {
-      commit('setFight', state.fights[fightId]);
-      return;
-    }
-
-    const fight = state.log.fights.find((fight) => fight.id === fightId);
-    const startTime = fight ? fight.startTime : null;
-    const endTime = fight ? fight.endTime : null;
-
-    let path = `/${payload.log}/${fightId}`;
+    const currentFight = currentLog.data.fights.find(
+      (fight) => fight.id === payload.fight
+    );
+    const startTime = currentFight ? currentFight.startTime : null;
+    const endTime = currentFight ? currentFight.endTime : null;
+    let path = `/${payload.log}/${payload.fight}`;
     if (startTime && endTime) {
       path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
     }
 
     try {
       const response: AxiosResponse = await api.get(path);
-      commit('setFight', response.data as Table);
       commit('addFight', {
-        fight: response.data as Table,
-        fight_id: payload.fight,
+        fight: response.data as TableData,
+        fightId: payload.fight,
+        log: payload.log,
       });
     } catch (err) {
       commit('setError', err);
@@ -112,54 +102,49 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     { commit, dispatch, state },
     payload: {
       log: string;
-      fight: string;
+      fight: number;
       char: number;
     }
   ) {
     commit('clearError');
 
-    if (Object.keys(state.fight).length === 0) {
+    if (
+      !state.logs[payload.log] ||
+      !state.logs[payload.log].fights[payload.fight]
+    ) {
       await dispatch('requestFight', {
-        log: <string>state.route.params.log,
-        fight: state.route.params.fight,
+        log: payload.log,
+        fight: payload.fight,
       });
       if (Object.keys(state.error).length !== 0) return;
     }
 
-    if (
-      Object.keys(state.char).length !== 0 &&
-      state.char.char.id === payload.char
-    ) {
+    const currentLog = state.logs[payload.log];
+    if (currentLog.fights[payload.fight].chars[payload.char]) {
       return;
     }
 
-    // If failed to convert (i.e. fight = 'last') - take the last fight id
-    let fightId = Number(payload.fight);
-    if (!fightId) {
-      fightId = state.log.fights[state.log.fights.length - 1].id;
-    }
-
-    const fight = state.log.fights.find((fight) => fight.id === fightId);
-    const startTime = fight ? fight.startTime : null;
-    const endTime = fight ? fight.endTime : null;
-
-    let path = `/${payload.log}/${fightId}/${payload.char}`;
+    const currentFight = currentLog.data.fights.find(
+      (fight) => fight.id === payload.fight
+    );
+    const startTime = currentFight ? currentFight.startTime : null;
+    const endTime = currentFight ? currentFight.endTime : null;
+    let path = `/${payload.log}/${payload.fight}/${payload.char}`;
     if (startTime && endTime) {
       path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
     }
 
     try {
       const response: AxiosResponse = await api.get(path);
-      commit('setChar', response.data as AnalysisInfo);
+      commit('addChar', {
+        char: response.data as AnalysisInfo,
+        charId: payload.char,
+        fightId: payload.fight,
+        log: payload.log,
+      });
     } catch (err) {
       commit('setError', err);
     }
-  },
-  cleanUp({ commit }) {
-    commit('purgeLog');
-    commit('purgeFight');
-    commit('purgeFights');
-    commit('purgeAnalysis');
   },
 };
 

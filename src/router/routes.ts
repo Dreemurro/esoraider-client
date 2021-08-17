@@ -16,12 +16,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Fights.vue'),
       },
       {
-        path: ':log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*|last)',
+        path: ':log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*)',
         name: 'Characters',
         component: () => import('pages/Characters.vue'),
       },
       {
-        path: '/:log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*|last)/:char([1-9][0-9]*)',
+        path: '/:log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*)/:char([1-9][0-9]*)',
         name: 'Analysis',
         component: () => import('pages/Analysis.vue'),
       },

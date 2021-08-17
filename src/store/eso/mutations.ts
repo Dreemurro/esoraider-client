@@ -1,4 +1,9 @@
-import { Encounter, Table, Report, AnalysisInfo } from 'src/components/models';
+import {
+  Encounter,
+  TableData,
+  Report,
+  AnalysisInfo,
+} from 'src/components/models';
 import { MutationTree } from 'vuex';
 import { EsoStateInterface } from './state';
 import _find from 'lodash/find';
@@ -6,20 +11,44 @@ import { RouteLocationNormalized } from 'vue-router';
 import { AxiosError } from 'axios';
 
 const mutation: MutationTree<EsoStateInterface> = {
-  setLog(state, log: Report) {
-    state.log = log;
+  addLog(state, log: Report) {
+    state.logs[log.code] = {
+      data: log,
+      fights: [],
+    };
   },
-  setFightDurations(state) {
-    Object.values(state.log.fights).forEach((fight) => {
+  addFight(state, payload: { fight: TableData; fightId: number; log: string }) {
+    const newFight = {
+      data: payload.fight,
+      chars: {},
+    };
+    state.logs[payload.log].fights[payload.fightId] = newFight;
+  },
+  addChar(
+    state,
+    payload: {
+      char: AnalysisInfo;
+      charId: number;
+      fightId: number;
+      log: string;
+    }
+  ) {
+    const { char, charId, fightId, log } = payload;
+    state.logs[log].fights[fightId].chars[charId] = char;
+  },
+  setFightDurations(state, log: string) {
+    const currentLog = state.logs[log];
+    Object.values(currentLog.data.fights).forEach((fight) => {
       const timeDiff = fight.endTime - fight.startTime;
       fight.duration = new Date(timeDiff).toISOString().slice(14, 19);
     });
   },
-  setEncounters(state, encounters: Encounter[]) {
+  addEncounters(state, encounters: Encounter[]) {
     state.encounters.push(...encounters);
   },
-  setDisplayNames(state) {
-    Object.values(state.log.fights).forEach((fight) => {
+  setDisplayNames(state, log: string) {
+    const currentLog = state.logs[log];
+    Object.values(currentLog.data.fights).forEach((fight) => {
       if (fight.encounterID === 0) {
         fight.displayName = 'Trash Fight';
         return;
@@ -39,33 +68,6 @@ const mutation: MutationTree<EsoStateInterface> = {
   },
   setRoute(state, route: RouteLocationNormalized) {
     state.route = route;
-  },
-  setFight(state, fight: Table) {
-    state.fight = fight;
-  },
-  setChar(state, char: AnalysisInfo) {
-    state.char = char;
-  },
-  addFight(
-    state,
-    payload: {
-      fight: Table;
-      fight_id: number;
-    }
-  ) {
-    state.fights[payload.fight_id] = payload.fight;
-  },
-  purgeLog(state) {
-    state.log = {} as Report;
-  },
-  purgeFight(state) {
-    state.fight = {} as Table;
-  },
-  purgeFights(state) {
-    state.fights = [] as Table[];
-  },
-  purgeAnalysis(state) {
-    state.char = {} as AnalysisInfo;
   },
   setError(state, error: AxiosError) {
     state.error = error;
