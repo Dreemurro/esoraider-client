@@ -28,11 +28,12 @@
           <template v-slot:avatar>
             <q-icon name="warning_amber" />
           </template>
-          Character skills were not found. This log is probably broken
+          Character skills were not found. This log is probably broken or there
+          is nothing to track yet
         </q-banner>
       </template>
 
-      <template v-if="Object.keys(currentChar.skills).length !== 0">
+      <template v-if="Object.keys(currentChar.sets).length !== 0">
         <q-card bordered>
           <q-expansion-item
             default-opened
@@ -51,7 +52,8 @@
           <template v-slot:avatar>
             <q-icon name="warning_amber" />
           </template>
-          Character sets were not found. This log is probably broken
+          Character sets were not found. This log is probably broken or there is
+          nothing to track yet
         </q-banner>
       </template>
 
@@ -67,6 +69,16 @@
             </template>
           </q-expansion-item>
         </q-card>
+      </template>
+
+      <template v-else>
+        <q-banner class="bg-yellow-3">
+          <template v-slot:avatar>
+            <q-icon name="warning_amber" />
+          </template>
+          Character glyphs were not found. This log is probably broken or there
+          is nothing to track yet
+        </q-banner>
       </template>
     </template>
   </q-page>
@@ -116,6 +128,7 @@ export default defineComponent({
       error.value = $store.state.eso.error;
       if (Object.keys(error.value).length !== 0) {
         title.value = 'Error';
+        loading.value = false;
         return;
       }
 
