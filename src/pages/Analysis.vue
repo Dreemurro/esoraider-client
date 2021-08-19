@@ -1,5 +1,15 @@
 <template>
   <q-page padding class="q-gutter-sm bg-grey-3">
+    <q-banner class="bg-blue-3">
+      <template v-slot:avatar>
+        <q-icon name="lightbulb" />
+      </template>
+      Have any suggestions (like new sets to track) or want to report bugs /
+      errors? Then please join
+      <a href="https://discord.gg/KP8GpascgQ">our Discord server</a>
+      or message to @Dreemurro#7778 directly 👍
+    </q-banner>
+
     <template v-if="loading">
       <q-spinner size="50px" class="absolute-center" />
     </template>
