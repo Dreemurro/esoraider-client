@@ -98,6 +98,35 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       commit('setError', err);
     }
   },
+  async requestFightReport(
+    { commit, state },
+    payload: {
+      log: string;
+      fight: number;
+    }
+  ) {
+    const currentLog = state.logs[payload.log];
+    const currentFight = currentLog.data.fights.find(
+      (fight) => fight.id === payload.fight
+    );
+    const startTime = currentFight ? currentFight.startTime : null;
+    const endTime = currentFight ? currentFight.endTime : null;
+    let path = `/fight/${payload.log}/${payload.fight}`;
+    if (startTime && endTime) {
+      path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
+    }
+
+    try {
+      const response: AxiosResponse = await api.get(path);
+      commit('addFightReport', {
+        report: response.data as AnalysisInfo,
+        fightId: payload.fight,
+        log: payload.log,
+      });
+    } catch (err) {
+      commit('setError', err);
+    }
+  },
   async requestAnalysis(
     { commit, dispatch, state },
     payload: {

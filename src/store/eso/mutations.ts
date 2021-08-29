@@ -24,6 +24,12 @@ const mutation: MutationTree<EsoStateInterface> = {
     };
     state.logs[payload.log].fights[payload.fightId] = newFight;
   },
+  addFightReport(
+    state,
+    payload: { report: AnalysisInfo; fightId: number; log: string }
+  ) {
+    state.logs[payload.log].fights[payload.fightId].report = payload.report;
+  },
   addChar(
     state,
     payload: {

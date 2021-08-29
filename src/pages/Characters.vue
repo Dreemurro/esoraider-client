@@ -8,38 +8,42 @@
       <error-banner :error="error" />
     </template>
 
-    <template v-else v-for="(spec, i) in specs" :key="i">
-      <q-list bordered dense class="bg-white">
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar square>
-              <img :src="spec.icon" />
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label header>{{ spec.name }}</q-item-label>
-          </q-item-section>
-        </q-item>
+    <template v-else>
+      <fight-report />
 
-        <q-separator />
+      <template v-for="(spec, i) in specs" :key="i">
+        <q-list bordered dense class="bg-white">
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar square>
+                <img :src="spec.icon" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label header>{{ spec.name }}</q-item-label>
+            </q-item-section>
+          </q-item>
 
-        <q-item
-          v-for="(player, i) in spec.players"
-          :key="i"
-          :to="{ name: 'Analysis', params: { char: `${player.id}` } }"
-          dense
-        >
-          <q-item-section avatar class="items-center justify-center">
-            <q-avatar square size="sm">
-              <img :src="icons[player.type][player.specs[0]]" />
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ player.name }}</q-item-label>
-            <q-item-label caption>{{ player.displayName }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+          <q-separator />
+
+          <q-item
+            v-for="(player, i) in spec.players"
+            :key="i"
+            :to="{ name: 'Analysis', params: { char: `${player.id}` } }"
+            dense
+          >
+            <q-item-section avatar class="items-center justify-center">
+              <q-avatar square size="sm">
+                <img :src="icons[player.type][player.specs[0]]" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ player.name }}</q-item-label>
+              <q-item-label caption>{{ player.displayName }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </template>
     </template>
   </q-page>
 </template>
@@ -51,11 +55,12 @@ import { useStore } from 'src/store';
 import { CharacterInfo } from 'components/models';
 import { AxiosError } from 'axios';
 import { useMeta } from 'quasar';
-import ErrorBanner from 'src/components/ErrorBanner.vue';
+import ErrorBanner from 'components/ErrorBanner.vue';
+import FightReport from 'components/FightReport.vue';
 
 export default defineComponent({
   name: 'characters',
-  components: { ErrorBanner },
+  components: { ErrorBanner, FightReport },
   setup() {
     interface Spec {
       name: string;

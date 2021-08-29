@@ -2,9 +2,10 @@ interface Log {
   data: Report;
   fights: Fights;
 }
-interface Fight {
+export interface Fight {
   data: TableData;
   chars: Chars;
+  report?: AnalysisInfo;
 }
 type Chars = Record<number, AnalysisInfo>;
 type Fights = Record<number, Fight>;
@@ -236,4 +237,6 @@ export interface AnalysisInfo {
     class: string;
     spec: string;
   };
+  buffs: Buff[];
+  debuffs: Buff[];
 }
