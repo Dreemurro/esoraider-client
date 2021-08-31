@@ -44,7 +44,7 @@
         >
           <q-list>
             <template v-for="(debuff, i) in report.debuffs" :key="i">
-              <buff :buff="buff" />
+              <buff :buff="debuff" />
             </template>
           </q-list>
         </q-expansion-item>
