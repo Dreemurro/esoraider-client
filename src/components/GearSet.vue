@@ -4,7 +4,7 @@
     dense-toggle
     switch-toggle-side
     expand-separator
-    :content-inset-level="0.5"
+    :content-inset-level="1"
   >
     <template v-slot:header>
       <q-item-section avatar class="items-center justify-center">
@@ -22,20 +22,12 @@
         </q-item-section>
       </template>
     </template>
-    <q-expansion-item
-      dense
-      dense-toggle
-      switch-toggle-side
-      :content-inset-level="0.5"
-      label="What's being tracked"
-    >
-      <template v-for="(buff, i) in gearSet.buffs" :key="i">
-        <buff :buff="buff" />
-      </template>
-      <template v-for="(debuff, i) in gearSet.debuffs" :key="i">
-        <buff :buff="debuff" />
-      </template>
-    </q-expansion-item>
+    <template v-for="(buff, i) in gearSet.buffs" :key="i">
+      <buff :buff="buff" />
+    </template>
+    <template v-for="(debuff, i) in gearSet.debuffs" :key="i">
+      <buff :buff="debuff" />
+    </template>
   </q-expansion-item>
 </template>
 

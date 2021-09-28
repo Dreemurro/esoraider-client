@@ -4,7 +4,7 @@
     dense-toggle
     switch-toggle-side
     expand-separator
-    :content-inset-level="0.5"
+    :content-inset-level="1"
   >
     <template v-slot:header>
       <q-item-section avatar class="items-center justify-center">
@@ -39,23 +39,15 @@
         (skill.children && Object.keys(skill.children).length !== 0)
       "
     >
-      <q-expansion-item
-        dense
-        dense-toggle
-        switch-toggle-side
-        :content-inset-level="0.5"
-        label="What's being tracked"
-      >
-        <template v-for="(buff, i) in skill.buffs" :key="i">
-          <buff :buff="buff" />
-        </template>
-        <template v-for="(debuff, i) in skill.debuffs" :key="i">
-          <buff :buff="debuff" />
-        </template>
-        <template v-for="(child, i) in skill.children" :key="i">
-          <buff :buff="child" />
-        </template>
-      </q-expansion-item>
+      <template v-for="(buff, i) in skill.buffs" :key="i">
+        <buff :buff="buff" />
+      </template>
+      <template v-for="(debuff, i) in skill.debuffs" :key="i">
+        <buff :buff="debuff" />
+      </template>
+      <template v-for="(child, i) in skill.children" :key="i">
+        <buff :buff="child" />
+      </template>
     </template>
     <template v-if="skill.advice">
       <q-item-section>{{ skill.advice }}</q-item-section>

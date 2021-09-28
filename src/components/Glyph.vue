@@ -4,7 +4,7 @@
     dense-toggle
     switch-toggle-side
     expand-separator
-    :content-inset-level="0.5"
+    :content-inset-level="1"
   >
     <template v-slot:header>
       <q-item-section avatar class="items-center justify-center">
@@ -31,20 +31,12 @@
         (glyph.debuffs && Object.keys(glyph.debuffs).length !== 0)
       "
     >
-      <q-expansion-item
-        dense
-        dense-toggle
-        switch-toggle-side
-        :content-inset-level="0.5"
-        label="What's being tracked"
-      >
-        <template v-for="(buff, i) in glyph.buffs" :key="i">
-          <buff :buff="buff" />
-        </template>
-        <template v-for="(debuff, i) in glyph.debuffs" :key="i">
-          <buff :buff="debuff" />
-        </template>
-      </q-expansion-item>
+      <template v-for="(buff, i) in glyph.buffs" :key="i">
+        <buff :buff="buff" />
+      </template>
+      <template v-for="(debuff, i) in glyph.debuffs" :key="i">
+        <buff :buff="debuff" />
+      </template>
     </template>
     <template v-if="glyph.advice">
       <q-item-section>{{ glyph.advice }}</q-item-section>
