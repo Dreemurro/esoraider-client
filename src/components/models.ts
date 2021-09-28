@@ -7,7 +7,8 @@ export interface Fight {
   chars: Chars;
   report?: AnalysisInfo;
 }
-type Chars = Record<number, AnalysisInfo>;
+type Targets = Record<number, AnalysisInfo>;
+type Chars = Record<number, Targets>;
 type Fights = Record<number, Fight>;
 export type Logs = Record<string, Log>;
 
@@ -227,6 +228,10 @@ export interface Glyph {
   advice?: string;
 }
 
+interface Target {
+  name: string;
+  id: number;
+}
 export interface AnalysisInfo {
   skills: Skill[];
   sets: GearSet[];
@@ -239,4 +244,5 @@ export interface AnalysisInfo {
   };
   buffs: Buff[];
   debuffs: Buff[];
+  targets: Target[];
 }

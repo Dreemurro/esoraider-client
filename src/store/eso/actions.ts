@@ -77,15 +77,10 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
 
     if (currentLog.fights[payload.fight]) return;
 
-    const currentFight = currentLog.data.fights.find(
-      (fight) => fight.id === payload.fight
-    );
-    const startTime = currentFight ? currentFight.startTime : null;
-    const endTime = currentFight ? currentFight.endTime : null;
-    let path = `/${payload.log}/${payload.fight}`;
-    if (startTime && endTime) {
-      path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
-    }
+    const path = (await dispatch('generatePath', {
+      log: payload.log,
+      fight: payload.fight,
+    })) as string;
 
     try {
       const response: AxiosResponse = await api.get(path);
@@ -99,22 +94,17 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     }
   },
   async requestFightReport(
-    { commit, state },
+    { commit, dispatch },
     payload: {
       log: string;
       fight: number;
     }
   ) {
-    const currentLog = state.logs[payload.log];
-    const currentFight = currentLog.data.fights.find(
-      (fight) => fight.id === payload.fight
-    );
-    const startTime = currentFight ? currentFight.startTime : null;
-    const endTime = currentFight ? currentFight.endTime : null;
-    let path = `/fight/${payload.log}/${payload.fight}`;
-    if (startTime && endTime) {
-      path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
-    }
+    const path = (await dispatch('generatePath', {
+      log: payload.log,
+      fight: payload.fight,
+      start: 'fight',
+    })) as string;
 
     try {
       const response: AxiosResponse = await api.get(path);
@@ -133,6 +123,7 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       log: string;
       fight: number;
       char: number;
+      target?: number;
     }
   ) {
     commit('clearError');
@@ -148,24 +139,26 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       if (Object.keys(state.error).length !== 0) return;
     }
 
+    const target = payload.target ?? 0;
     const currentLog = state.logs[payload.log];
-    if (currentLog.fights[payload.fight].chars[payload.char]) {
+    const char = currentLog.fights[payload.fight].chars[payload.char] ?? null;
+    const charTarget = char ? char[target] : null;
+
+    if (char && charTarget) {
       return;
     }
 
-    const currentFight = currentLog.data.fights.find(
-      (fight) => fight.id === payload.fight
-    );
-    const startTime = currentFight ? currentFight.startTime : null;
-    const endTime = currentFight ? currentFight.endTime : null;
-    let path = `/${payload.log}/${payload.fight}/${payload.char}`;
-    if (startTime && endTime) {
-      path = path.concat(`?start_time=${startTime}&end_time=${endTime}`);
-    }
+    const path = (await dispatch('generatePath', {
+      log: payload.log,
+      fight: payload.fight,
+      char: payload.char,
+      target: payload.target,
+    })) as string;
 
     try {
       const response: AxiosResponse = await api.get(path);
       commit('addChar', {
+        target: target,
         char: response.data as AnalysisInfo,
         charId: payload.char,
         fightId: payload.fight,
@@ -174,6 +167,38 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     } catch (err) {
       commit('setError', err);
     }
+  },
+  generatePath(
+    { state },
+    payload: {
+      log: string;
+      fight?: number;
+      char?: number;
+      target?: number;
+      start?: string;
+    }
+  ) {
+    let path = payload.start ? `/${payload.start}` : '';
+
+    path = path.concat(`/${payload.log}`);
+    path = payload.fight ? path.concat(`/${payload.fight}`) : path;
+    path = payload.char ? path.concat(`/${payload.char}`) : path;
+    path = path.concat('?');
+
+    if (payload.target && payload.target !== 0) {
+      path = path.concat(`target=${payload.target}&`);
+    }
+
+    const currentFight = state.logs[payload.log].data.fights.find(
+      (fight) => fight.id === payload.fight
+    );
+    const startTime = currentFight ? currentFight.startTime : null;
+    const endTime = currentFight ? currentFight.endTime : null;
+    if (startTime && endTime) {
+      path = path.concat(`start_time=${startTime}&end_time=${endTime}`);
+    }
+
+    return path;
   },
 };
 
