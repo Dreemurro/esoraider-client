@@ -23,6 +23,7 @@
         <q-expansion-item
           dense
           dense-toggle
+          expand-separator
           label="Buffs"
           content-inset-level="0.5"
           header-inset-level="0.5"
@@ -38,6 +39,7 @@
         <q-expansion-item
           dense
           dense-toggle
+          expand-separator
           label="Debuffs"
           content-inset-level="0.5"
           header-inset-level="0.5"
