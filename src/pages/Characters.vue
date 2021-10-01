@@ -39,7 +39,9 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ player.name }}</q-item-label>
-              <q-item-label caption>{{ player.displayName }}</q-item-label>
+              <template v-if="player.displayName !== 'nil'">
+                <q-item-label caption>{{ player.displayName }}</q-item-label>
+              </template>
             </q-item-section>
           </q-item>
         </q-list>
