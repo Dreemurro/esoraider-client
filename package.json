@@ -11,8 +11,8 @@
     "build": "quasar build -m spa"
   },
   "dependencies": {
-    "@quasar/extras": "^1.10.8",
-    "axios": "^0.21.1",
+    "@quasar/extras": "^1.11.1",
+    "axios": "^0.22.0",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "quasar": "^2.0.3",
@@ -23,7 +23,7 @@
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.3",
     "@types/lodash": "^4.14.170",
-    "@types/node": "^10.17.15",
+    "@types/node": "^16.10.2",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.14.0",
