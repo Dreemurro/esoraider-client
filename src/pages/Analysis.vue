@@ -1,6 +1,6 @@
 <template>
-  <q-page padding class="q-gutter-sm bg-grey-3">
-    <q-banner class="bg-blue-3">
+  <q-page padding class="q-gutter-sm">
+    <q-banner :class="$q.dark.isActive ? 'bg-blue-8' : 'bg-blue-3'">
       <template v-slot:avatar>
         <q-icon name="lightbulb" />
       </template>
@@ -24,7 +24,6 @@
         dense
         options-dense
         label="Target"
-        bg-color="white"
         v-model="currentOption"
         :options="options"
         @update:model-value="changeTarget"
@@ -45,7 +44,7 @@
       </template>
 
       <template v-else>
-        <q-banner class="bg-yellow-3">
+        <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
           <template v-slot:avatar>
             <q-icon name="warning_amber" />
           </template>
@@ -69,7 +68,7 @@
       </template>
 
       <template v-else>
-        <q-banner class="bg-yellow-3">
+        <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
           <template v-slot:avatar>
             <q-icon name="warning_amber" />
           </template>
@@ -93,7 +92,7 @@
       </template>
 
       <template v-else>
-        <q-banner class="bg-yellow-3">
+        <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
           <template v-slot:avatar>
             <q-icon name="warning_amber" />
           </template>

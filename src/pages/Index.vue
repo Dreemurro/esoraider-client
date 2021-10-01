@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column justify-center bg-grey-3">
+  <q-page padding class="column justify-center">
     <q-input
       filled
       v-model="logLink"

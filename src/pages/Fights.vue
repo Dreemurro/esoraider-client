@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="q-gutter-sm bg-grey-3">
+  <q-page padding class="q-gutter-sm">
     <template v-if="loading">
       <q-spinner size="50px" class="absolute-center" />
     </template>
@@ -19,7 +19,7 @@
         </template>
       </template>
       <template v-else>
-        <q-banner class="text-white bg-red">
+        <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
           Nothing to show here. Try unticking
           <strong>Show kills only</strong> above
         </q-banner>

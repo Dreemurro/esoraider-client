@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="q-gutter-sm bg-grey-3">
+  <q-page padding class="q-gutter-sm">
     <template v-if="loading">
       <q-spinner size="50px" class="absolute-center" />
     </template>
@@ -12,7 +12,7 @@
       <fight-report />
 
       <template v-for="(spec, i) in specs" :key="i">
-        <q-list bordered dense class="bg-white">
+        <q-card bordered>
           <q-item>
             <q-item-section avatar>
               <q-avatar square>
@@ -44,7 +44,7 @@
               </template>
             </q-item-section>
           </q-item>
-        </q-list>
+        </q-card>
       </template>
     </template>
   </q-page>

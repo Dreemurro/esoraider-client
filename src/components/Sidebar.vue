@@ -21,19 +21,25 @@
     <breadcrumbs />
     <q-space />
     <q-separator />
-    <a href="https://discord.gg/KP8GpascgQ" class="justify-start">
+    <div class="row inline q-pa-sm">
+      <a href="https://discord.gg/KP8GpascgQ" class="justify-start">
         <q-icon
           name="fab fa-discord"
           size="md"
-          />
-    </a>
+          :color="$q.dark.isActive ? 'white' : 'black'"
+        />
+      </a>
+      <q-space />
+      <dark-mode />
+    </div>
   </q-drawer>
 </template>
 
 <script>
 import Breadcrumbs from './Breadcrumbs.vue';
+import DarkMode from './DarkMode.vue';
 export default {
-  components: { Breadcrumbs },
+  components: { Breadcrumbs, DarkMode },
   name: 'Sidebar',
 };
 </script>

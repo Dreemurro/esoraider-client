@@ -1,5 +1,5 @@
 <template>
-  <q-list bordered class="bg-white">
+  <q-card bordered>
     <q-item-label header>{{ groupedFights.name }}</q-item-label>
 
     <q-separator />
@@ -19,7 +19,7 @@
         <q-linear-progress :value="(100 - fight.fightPercentage) / 100" />
       </q-item-section>
     </q-item>
-  </q-list>
+  </q-card>
 </template>
 
 <script lang="ts">

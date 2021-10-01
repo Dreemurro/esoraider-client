@@ -1,5 +1,5 @@
 <template>
-  <q-banner class="bg-red-3">
+  <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
     <template v-slot:avatar>
       <q-icon name="error_outline"></q-icon>
     </template>
