@@ -33,7 +33,7 @@ const mutation: MutationTree<EsoStateInterface> = {
   addChar(
     state,
     payload: {
-      target: number;
+      target?: number[];
       char: AnalysisInfo;
       charId: number;
       fightId: number;
@@ -41,10 +41,15 @@ const mutation: MutationTree<EsoStateInterface> = {
     }
   ) {
     const { target, char, charId, fightId, log } = payload;
-    if (!state.logs[log].fights[fightId].chars[charId]) {
+    const charAnalysis = state.logs[log].fights[fightId].chars[charId];
+    if (!charAnalysis) {
       state.logs[log].fights[fightId].chars[charId] = {};
     }
-    state.logs[log].fights[fightId].chars[charId][target] = char;
+    const key = char.currentTarget ? char.currentTarget.name : 'Overall';
+    state.logs[log].fights[fightId].chars[charId][key] = {
+      ids: target ? target : [0],
+      report: char,
+    };
   },
   setFightDurations(state, log: string) {
     const currentLog = state.logs[log];

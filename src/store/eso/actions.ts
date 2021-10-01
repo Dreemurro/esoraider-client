@@ -7,6 +7,7 @@ import { EsoStateInterface } from './state';
 import _uniq from 'lodash/uniq';
 import _map from 'lodash/map';
 import _without from 'lodash/without';
+import _isEqual from 'lodash/isEqual';
 
 const actions: ActionTree<EsoStateInterface, StateInterface> = {
   async requestLog({ dispatch, commit, state }, log: string) {
@@ -123,7 +124,7 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       log: string;
       fight: number;
       char: number;
-      target?: number;
+      target?: number[];
     }
   ) {
     commit('clearError');
@@ -139,10 +140,12 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       if (Object.keys(state.error).length !== 0) return;
     }
 
-    const target = payload.target ?? 0;
+    const target = payload.target ?? [0];
     const currentLog = state.logs[payload.log];
     const char = currentLog.fights[payload.fight].chars[payload.char] ?? null;
-    const charTarget = char ? char[target] : null;
+    const charTarget = char
+      ? Object.keys(char).find((key) => _isEqual(char[key].ids, target))
+      : null;
 
     if (char && charTarget) {
       return;
@@ -158,7 +161,7 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     try {
       const response: AxiosResponse = await api.get(path);
       commit('addChar', {
-        target: target,
+        target: payload.target,
         char: response.data as AnalysisInfo,
         charId: payload.char,
         fightId: payload.fight,
@@ -174,7 +177,7 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
       log: string;
       fight?: number;
       char?: number;
-      target?: number;
+      target?: number[];
       start?: string;
     }
   ) {
@@ -185,8 +188,8 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
     path = payload.char ? path.concat(`/${payload.char}`) : path;
     path = path.concat('?');
 
-    if (payload.target && payload.target !== 0) {
-      path = path.concat(`target=${payload.target}&`);
+    if (payload.target && payload.target.length !== 0) {
+      for (const t of payload.target) path = path.concat(`target=${t}&`);
     }
 
     const currentFight = state.logs[payload.log].data.fights.find(

@@ -123,7 +123,7 @@ export default defineComponent({
   setup() {
     interface Option {
       label: string;
-      value: number;
+      value: number[];
     }
 
     const $store = useStore();
@@ -152,7 +152,7 @@ export default defineComponent({
       };
     });
 
-    const analysisRequest = async (targetId?: number) => {
+    const analysisRequest = async (targetId?: number[]) => {
       await $store.dispatch('eso/requestAnalysis', {
         log: logCode,
         fight: fightId,
@@ -170,7 +170,7 @@ export default defineComponent({
     const populateTargets = () => {
       options.push({
         label: 'Overall',
-        value: 0,
+        value: [0],
       });
       for (let target of currentAnalysis.value.targets)
         options.push({
@@ -182,10 +182,11 @@ export default defineComponent({
     const changeTarget = async (option: Option) => {
       uptimesLoading.value = true;
 
-      if (!currentFight.chars[charId][option.value]) {
+      if (!currentFight.chars[charId][option.label]) {
         await analysisRequest(option.value);
       }
-      currentAnalysis.value = currentFight.chars[charId][option.value];
+      const report = currentFight.chars[charId][option.label].report;
+      if (report) currentAnalysis.value = report;
 
       uptimesLoading.value = false;
     };
@@ -196,7 +197,7 @@ export default defineComponent({
       await analysisRequest();
 
       currentFight = $store.state.eso.logs[logCode].fights[fightId];
-      currentAnalysis.value = currentFight.chars[charId][0];
+      currentAnalysis.value = currentFight.chars[charId]['Overall'].report;
       title.value = currentAnalysis.value.char.name;
 
       populateTargets();
