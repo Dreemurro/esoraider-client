@@ -160,10 +160,7 @@ export default defineComponent({
       });
 
       error.value = $store.state.eso.error;
-      if (Object.keys(error.value).length !== 0) {
-        title.value = 'Error';
-        return;
-      }
+      if (Object.keys(error.value).length !== 0) title.value = 'Error';
     };
 
     const populateTargets = () => {
@@ -171,7 +168,7 @@ export default defineComponent({
         label: 'Overall',
         value: [0],
       });
-      for (let target of currentAnalysis.value.targets)
+      for (let target of currentFight.chars[charId]['Overall'].report.targets)
         options.push({
           label: target.name,
           value: target.id,
@@ -195,13 +192,18 @@ export default defineComponent({
 
       await analysisRequest();
 
+      if (Object.keys(error.value).length !== 0) {
+        globalLoading.value = false;
+        return;
+      }
+
       currentFight = $store.state.eso.logs[logCode].fights[fightId];
-      currentAnalysis.value = currentFight.chars[charId]['Overall'].report;
-      title.value = currentAnalysis.value.char.name;
 
       populateTargets();
       currentOption.value = options[0];
+      await changeTarget(currentOption.value);
 
+      title.value = currentAnalysis.value.char.name;
       globalLoading.value = false;
     });
 
