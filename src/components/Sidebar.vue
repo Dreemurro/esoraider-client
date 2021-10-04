@@ -20,6 +20,7 @@
     />
     <breadcrumbs />
     <q-space />
+    <view-on-eso-logs />
     <q-separator />
     <div class="row inline q-pa-sm">
       <a href="https://discord.gg/KP8GpascgQ" class="justify-start">
@@ -38,8 +39,9 @@
 <script>
 import Breadcrumbs from './Breadcrumbs.vue';
 import DarkMode from './DarkMode.vue';
+import ViewOnEsoLogs from './ViewOnEsoLogs.vue';
 export default {
-  components: { Breadcrumbs, DarkMode },
+  components: { Breadcrumbs, DarkMode, ViewOnEsoLogs },
   name: 'Sidebar',
 };
 </script>
