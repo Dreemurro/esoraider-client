@@ -9,6 +9,15 @@
     </template>
 
     <template v-else>
+      <template v-if="brokenFight">
+        <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
+          <template v-slot:avatar>
+            <q-icon name="error_outline" />
+          </template>
+          This fight is broken - characters' gear/skills are not logged
+        </q-banner>
+      </template>
+
       <fight-report />
 
       <template v-for="(spec, i) in specs" :key="i">
@@ -31,6 +40,7 @@
             :key="i"
             :to="{ name: 'Analysis', params: { char: `${player.id}` } }"
             dense
+            :disable="brokenFight"
           >
             <q-item-section avatar class="items-center justify-center">
               <q-avatar square size="sm">
@@ -74,6 +84,7 @@ export default defineComponent({
     const title = ref('');
     const loading = ref(true);
     const currentFight = ref({});
+    const brokenFight = ref(false);
     const error = ref({} as AxiosError);
     const specs = ref([] as Spec[]);
 
@@ -165,6 +176,10 @@ export default defineComponent({
         players: requestedFight.data.playerDetails['dps'],
       });
 
+      const randomChar = requestedFight.data.playerDetails.dps[0];
+      if (Object.keys(randomChar.combatantInfo).length === 0)
+        brokenFight.value = true;
+
       loading.value = false;
     };
 
@@ -176,6 +191,7 @@ export default defineComponent({
       specs,
       icons,
       error,
+      brokenFight,
     };
   },
 });
