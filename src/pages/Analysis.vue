@@ -22,12 +22,22 @@
       <q-card bordered>
         <q-tabs v-model="currentTab" no-caps align="justify">
           <q-tab name="uptimes" label="Uptimes" />
+          <q-tab name="checklist" label="Checklist">
+            <template v-if="numberOfAlerts !== 0">
+              <q-badge color="red" floating>{{ numberOfAlerts }}</q-badge>
+            </template>
+          </q-tab>
         </q-tabs>
         <q-separator />
         <q-tab-panels v-model="currentTab" keep-alive>
           <q-tab-panel name="uptimes" class="q-pa-md q-gutter-md">
             <template v-if="Object.keys(currentFight).length !== 0">
               <uptimes :fight="currentFight" @changeTarget="analysisRequest" />
+            </template>
+          </q-tab-panel>
+          <q-tab-panel name="checklist">
+            <template v-if="Object.keys(currentChecklist).length !== 0">
+              <checklist :checklist="currentChecklist" />
             </template>
           </q-tab-panel>
         </q-tab-panels>
@@ -37,18 +47,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMeta } from 'quasar';
 import { useStore } from 'src/store';
 import { AxiosError } from 'axios';
-import { Fight } from 'components/models';
+import { Fight, Rule } from 'components/models';
+import Checklist from 'components/Checklist.vue';
 import ErrorBanner from 'components/ErrorBanner.vue';
 import Uptimes from 'components/Uptimes.vue';
 
 export default defineComponent({
   name: 'analysis',
-  components: { ErrorBanner, Uptimes },
+  components: { Checklist, ErrorBanner, Uptimes },
   setup() {
     const $store = useStore();
     const route = useRoute();
@@ -60,10 +71,19 @@ export default defineComponent({
 
     const currentTab = ref('uptimes');
     const currentFight = ref({} as Fight);
+    const currentChecklist = ref([] as Rule[]);
 
     const logCode = <string>route.params.log;
     const fightId = Number(route.params.fight);
     const charId = Number(route.params.char);
+
+    const numberOfAlerts = computed(() => {
+      let alerts = 0;
+      for (var rule of currentChecklist.value) {
+        if (!rule.status) alerts++;
+      }
+      return alerts;
+    });
 
     useMeta(() => {
       return {
@@ -102,6 +122,7 @@ export default defineComponent({
 
       currentFight.value = $store.state.eso.logs[logCode].fights[fightId];
       const report = currentFight.value.chars[charId]['Overall'].report;
+      currentChecklist.value = report.checklist;
 
       title.value = report.char.name;
       globalLoading.value = false;
@@ -112,7 +133,9 @@ export default defineComponent({
       error,
       currentTab,
       currentFight,
+      currentChecklist,
       analysisRequest,
+      numberOfAlerts,
     };
   },
 });

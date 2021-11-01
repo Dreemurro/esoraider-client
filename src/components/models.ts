@@ -236,6 +236,18 @@ interface Target {
   name: string;
   id: number[];
 }
+
+interface RulePassive {
+  present: boolean;
+  passive: Buff;
+}
+
+export interface Rule {
+  name: string;
+  icon: string;
+  passives: RulePassive[];
+  status: boolean;
+}
 export interface AnalysisInfo {
   skills: Skill[];
   sets: GearSet[];
@@ -250,4 +262,5 @@ export interface AnalysisInfo {
   debuffs: Buff[];
   targets: Target[];
   currentTarget?: Target;
+  checklist: Rule[];
 }
