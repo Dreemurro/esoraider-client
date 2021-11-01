@@ -4,7 +4,7 @@
       <q-item dense>
         <q-item-section avatar class="items-center justify-center">
           <q-avatar square size="sm">
-            <img :src="`${buff.icon}`" />
+            <q-img :src="`${buff.icon}`" />
           </q-avatar>
         </q-item-section>
         <q-item-section>{{ buff.name }} x{{ i }}</q-item-section>
@@ -19,7 +19,7 @@
     <q-item dense>
       <q-item-section avatar class="items-center justify-center">
         <q-avatar square size="sm">
-          <img :src="`${buff.icon}`" />
+          <q-img :src="`${buff.icon}`" />
         </q-avatar>
       </q-item-section>
       <q-item-section>{{ buff.name }}</q-item-section>

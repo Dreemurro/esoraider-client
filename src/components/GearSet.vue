@@ -9,7 +9,7 @@
     <template v-slot:header>
       <q-item-section avatar class="items-center justify-center">
         <q-avatar square size="sm">
-          <img :src="`${gearSet.icon}`" />
+          <q-img :src="`${gearSet.icon}`" />
         </q-avatar>
       </q-item-section>
       <q-item-section>{{ gearSet.name }}</q-item-section>
