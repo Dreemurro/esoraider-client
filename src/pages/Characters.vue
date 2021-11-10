@@ -106,36 +106,42 @@ export default defineComponent({
         Healer: 'images/class/sorcerer/healer.webp',
         MagickaDPS: 'images/class/sorcerer/magdd.webp',
         StaminaDPS: 'images/class/sorcerer/stamdd.webp',
+        Default: 'images/class/sorcerer/default.webp',
       },
       Nightblade: {
         Tank: 'images/class/nightblade/tank.webp',
         Healer: 'images/class/nightblade/healer.webp',
         MagickaDPS: 'images/class/nightblade/magdd.webp',
         StaminaDPS: 'images/class/nightblade/stamdd.webp',
+        Default: 'images/class/nightblade/default.webp',
       },
       DragonKnight: {
         Tank: 'images/class/dragonknight/tank.webp',
         Healer: 'images/class/dragonknight/healer.webp',
         MagickaDPS: 'images/class/dragonknight/magdd.webp',
         StaminaDPS: 'images/class/dragonknight/stamdd.webp',
+        Default: 'images/class/dragonknight/default.webp',
       },
       Necromancer: {
         Tank: 'images/class/necromancer/tank.webp',
         Healer: 'images/class/necromancer/healer.webp',
         MagickaDPS: 'images/class/necromancer/magdd.webp',
         StaminaDPS: 'images/class/necromancer/stamdd.webp',
+        Default: 'images/class/necromancer/default.webp',
       },
       Templar: {
         Tank: 'images/class/templar/tank.webp',
         Healer: 'images/class/templar/healer.webp',
         MagickaDPS: 'images/class/templar/magdd.webp',
         StaminaDPS: 'images/class/templar/stamdd.webp',
+        Default: 'images/class/templar/default.webp',
       },
       Warden: {
         Tank: 'images/class/warden/tank.webp',
         Healer: 'images/class/warden/healer.webp',
         MagickaDPS: 'images/class/warden/magdd.webp',
         StaminaDPS: 'images/class/warden/stamdd.webp',
+        Default: 'images/class/warden/default.webp',
       },
     };
 
