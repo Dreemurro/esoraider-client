@@ -25,7 +25,7 @@
           <q-item>
             <q-item-section avatar>
               <q-avatar square>
-                <img :src="spec.icon" />
+                <q-img :src="spec.icon" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -44,7 +44,12 @@
           >
             <q-item-section avatar class="items-center justify-center">
               <q-avatar square size="sm">
-                <img :src="icons[player.type][player.specs[0]]" />
+                <template v-if="player.specs">
+                  <q-img :src="icons[player.type][player.specs[0]]" />
+                </template>
+                <template v-else>
+                  <q-img :src="icons[player.type].Default" />
+                </template>
               </q-avatar>
             </q-item-section>
             <q-item-section>
