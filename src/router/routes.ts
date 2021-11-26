@@ -11,17 +11,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Index.vue'),
       },
       {
-        path: ':log([a-zA-Z0-9]{16})',
+        // Better version - (?>a:)?[a-zA-Z0-9]{16} but it doesn't work here for some reason
+        path: ':log([a-zA-Z0-9]{16}|a:[a-zA-Z0-9]{16})',
         name: 'Fights',
         component: () => import('pages/Fights.vue'),
       },
       {
-        path: ':log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*)',
+        path: ':log([a-zA-Z0-9]{16}|a:[a-zA-Z0-9]{16})/:fight([1-9][0-9]*)',
         name: 'Characters',
         component: () => import('pages/Characters.vue'),
       },
       {
-        path: '/:log([a-zA-Z0-9]{16})/:fight([1-9][0-9]*)/:char([1-9][0-9]*)',
+        path: ':log([a-zA-Z0-9]{16}|a:[a-zA-Z0-9]{16})/:fight([1-9][0-9]*)/:char([1-9][0-9]*)',
         name: 'Analysis',
         component: () => import('pages/Analysis.vue'),
       },
