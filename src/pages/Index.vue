@@ -1,5 +1,20 @@
 <template>
   <q-page padding class="column justify-center">
+    <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
+      <template v-slot:avatar>
+        <q-icon name="error_outline"></q-icon>
+      </template>
+      ESO Raider is currently not working
+      <br />
+      I changed my ISP and this affected my home server availability
+      <br />
+      The issue will be resolved soon
+      <br />
+      Thx for your patience
+      <br />
+      <br />
+      Dreemurro#7778
+    </q-banner>
     <q-input
       filled
       v-model="logLink"
