@@ -188,7 +188,7 @@ export default defineComponent({
       });
 
       const randomChar = requestedFight.data.playerDetails.dps[0];
-      if (Object.keys(randomChar.combatantInfo).length === 0)
+      if (Object.keys(randomChar.combatantInfo || {}).length === 0)
         brokenFight.value = true;
 
       loading.value = false;
