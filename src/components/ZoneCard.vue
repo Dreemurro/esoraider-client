@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { PropType, defineComponent } from 'vue';
+
 import { GroupedFights } from './models';
 
 export default defineComponent({

@@ -15,9 +15,10 @@
 </template>
 
 <script lang="ts">
+import { useMeta } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useMeta } from 'quasar';
+
 import { useStore } from 'src/store';
 
 const metaData = {

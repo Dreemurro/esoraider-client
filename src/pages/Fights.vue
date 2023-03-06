@@ -29,16 +29,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
 import { AxiosError } from 'axios';
-import { FightData, Report, GroupedFights } from 'components/models';
-import { useRoute } from 'vue-router';
-import { useStore } from 'src/store';
-import { useMeta } from 'quasar';
 import _groupBy from 'lodash/groupBy';
 import _map from 'lodash/map';
+import { useMeta } from 'quasar';
+import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+import { FightData, GroupedFights, Report } from 'components/models';
 import ZoneCard from 'components/ZoneCard.vue';
 import ErrorBanner from 'src/components/ErrorBanner.vue';
+import { useStore } from 'src/store';
 
 function grouping(fights: FightData[]): GroupedFights[] {
   const grouped: GroupedFights[] = _map(

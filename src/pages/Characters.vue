@@ -66,14 +66,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'src/store';
-import { CharacterInfo, Fight } from 'components/models';
 import { AxiosError } from 'axios';
 import { useMeta } from 'quasar';
+import { defineComponent, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
 import ErrorBanner from 'components/ErrorBanner.vue';
 import FightReport from 'components/FightReport.vue';
+import { CharacterInfo, Fight } from 'components/models';
+import { useStore } from 'src/store';
 
 export default defineComponent({
   name: 'CharactersPage',

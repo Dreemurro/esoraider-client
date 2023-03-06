@@ -53,9 +53,11 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'src/store';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+
+import { useStore } from 'src/store';
+
 import Buff from './Buff.vue';
 import { AnalysisInfo } from './models';
 

@@ -92,11 +92,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, PropType } from 'vue';
+import { PropType, defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { Fight, AnalysisInfo } from 'components/models';
+
 import GearSet from 'components/GearSet.vue';
 import Glyph from 'components/Glyph.vue';
+import { AnalysisInfo, Fight } from 'components/models';
 import Skill from 'components/Skill.vue';
 export default defineComponent({
   name: 'UptimesItem',

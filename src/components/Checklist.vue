@@ -56,7 +56,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { PropType, defineComponent } from 'vue';
+
 import { Rule } from './models';
 export default defineComponent({
   name: 'ChecklistItem',

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { AxiosError } from 'axios';
-import { defineComponent, PropType } from 'vue';
+import { PropType, defineComponent } from 'vue';
 export default defineComponent({
   name: 'ErrorBanner',
   props: {

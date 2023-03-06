@@ -45,9 +45,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Glyph } from './models';
+import { PropType, defineComponent } from 'vue';
+
 import Buff from './Buff.vue';
+import { Glyph } from './models';
 export default defineComponent({
   name: 'GlyphItem',
   components: { Buff },

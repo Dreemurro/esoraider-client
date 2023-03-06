@@ -47,15 +47,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useMeta } from 'quasar';
-import { useStore } from 'src/store';
 import { AxiosError } from 'axios';
-import { Fight, Rule } from 'components/models';
+import { useMeta } from 'quasar';
+import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
 import Checklist from 'components/Checklist.vue';
 import ErrorBanner from 'components/ErrorBanner.vue';
+import { Fight, Rule } from 'components/models';
 import Uptimes from 'components/Uptimes.vue';
+import { useStore } from 'src/store';
 
 export default defineComponent({
   name: 'AnalysisPage',

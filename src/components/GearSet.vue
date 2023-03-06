@@ -32,7 +32,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { PropType, defineComponent } from 'vue';
+
 import Buff from './Buff.vue';
 import { GearSet } from './models';
 export default defineComponent({

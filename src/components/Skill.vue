@@ -56,9 +56,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Skill } from './models';
+import { PropType, defineComponent } from 'vue';
+
 import Buff from './Buff.vue';
+import { Skill } from './models';
 export default defineComponent({
   name: 'SkillItem',
   components: { Buff },
