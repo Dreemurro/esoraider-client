@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "description": "ESO Logs analysis tool",
   "productName": "ESO Raider",
-  "author": "",
+  "author": "Dreemurro <dr33murro@gmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build -m spa"
   },
@@ -17,36 +18,29 @@
     "lodash": "^4.17.21",
     "quasar": "^2.11.6",
     "typescript": "^4.9.5",
-    "vue": "^3",
-    "vue-i18n": "^9.0.0-beta.0",
-    "vue-router": "^4",
-    "vuex": "^4.0.1"
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.0.0",
+    "pinia": "^2.0.11",
+    "vite": "^2.0.0",
+    "postcss": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.0",
-    "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app-webpack": "^3.7.1",
-    "@types/lodash": "^4.14.170",
-    "@types/node": "^18.14.1",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "eslint": "^8.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.10.0",
+    "eslint-plugin-vue": "^9.0.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^9.9.0"
+    "prettier": "^2.5.1",
+    "@types/node": "^12.20.21",
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.0.0",
+    "autoprefixer": "^10.4.2",
+    "typescript": "^4.9.5",
+    "@types/lodash": "^4.14.170"
   },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
-  ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": "^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }
