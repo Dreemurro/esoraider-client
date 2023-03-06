@@ -57,15 +57,16 @@ import { useStore } from 'src/store';
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Buff from './Buff.vue';
+import { AnalysisInfo } from './models';
 
 export default defineComponent({
   components: { Buff },
-  name: 'fight-report',
+  name: 'FightReport',
   setup() {
     const $store = useStore();
     const route = useRoute();
     const loading = ref(false);
-    const report = ref({});
+    const report = ref({} as AnalysisInfo);
 
     const logCode = <string>route.params.log;
     const fightId = Number(route.params.fight);

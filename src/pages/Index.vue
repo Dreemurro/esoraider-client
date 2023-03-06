@@ -25,7 +25,7 @@ const metaData = {
 };
 
 export default defineComponent({
-  name: 'logInput',
+  name: 'LogInput',
   setup() {
     const $store = useStore();
     const router = useRouter();

@@ -12,7 +12,7 @@
 import { useStore } from 'src/store';
 import { defineComponent, computed } from 'vue';
 export default defineComponent({
-  name: 'breadcrumbs',
+  name: 'BreadcrumbList',
   setup() {
     const $store = useStore();
 
@@ -22,7 +22,7 @@ export default defineComponent({
         label: string;
         link: string;
       };
-      let breadcrumbsArray = [] as Breadcrumb[];
+      let breadcrumbsArray: Breadcrumb[] = [];
 
       const logCode = <string>$store.state.eso.route.params.log;
       const currentLog = $store.state.eso.logs[logCode];

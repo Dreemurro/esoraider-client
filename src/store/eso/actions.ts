@@ -37,9 +37,9 @@ const actions: ActionTree<EsoStateInterface, StateInterface> = {
 
     const resolved = await Promise.all(responses);
     const encounters: Encounter[] = [];
-    Object.values(resolved).forEach((response) =>
-      encounters.push(response.data)
-    );
+    Object.values(resolved).forEach((response) => {
+      encounters.push(response.data as Encounter);
+    });
 
     commit('addEncounters', encounters);
   },

@@ -1,6 +1,6 @@
 <template>
   <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
-    <template v-slot:avatar>
+    <template #avatar>
       <q-icon name="error_outline"></q-icon>
     </template>
     <template v-if="error.response">
@@ -16,10 +16,11 @@
 import { AxiosError } from 'axios';
 import { defineComponent, PropType } from 'vue';
 export default defineComponent({
-  name: 'errorBanner',
+  name: 'ErrorBanner',
   props: {
     error: {
       type: Object as PropType<AxiosError>,
+      required: true,
     },
   },
 });

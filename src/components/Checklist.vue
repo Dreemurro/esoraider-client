@@ -15,7 +15,7 @@
           :content-inset-level="1"
           :default-opened="!rule.status"
         >
-          <template v-slot:header>
+          <template #header>
             <q-item-section avatar class="items-center justify-center">
               <q-avatar square size="sm">
                 <q-img :src="`${rule.icon}`" />
@@ -59,7 +59,7 @@
 import { defineComponent, PropType } from 'vue';
 import { Rule } from './models';
 export default defineComponent({
-  name: 'checklist',
+  name: 'ChecklistItem',
   props: {
     checklist: {
       type: Object as PropType<Rule[]>,

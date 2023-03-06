@@ -15,7 +15,7 @@
       </q-toolbar>
       <template v-if="Object.keys(displayedFights).length !== 0">
         <template v-for="fightGroup in displayedFights" :key="fightGroup.name">
-          <zone-card :groupedFights="fightGroup" />
+          <zone-card :grouped-fights="fightGroup" />
         </template>
       </template>
       <template v-else>
@@ -50,7 +50,7 @@ function grouping(fights: FightData[]): GroupedFights[] {
 
 export default defineComponent({
   components: { ZoneCard, ErrorBanner },
-  name: 'fights',
+  name: 'FightsPage',
   setup() {
     const $store = useStore();
     const title = ref('');

@@ -31,7 +31,7 @@
 
     <template v-else>
       <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
-        <template v-slot:avatar>
+        <template #avatar>
           <q-icon name="warning_amber" />
         </template>
         Character skills were not found. This log is probably broken or there is
@@ -48,7 +48,7 @@
           label="Sets"
         >
           <template v-for="(gearSet, i) in currentAnalysis.sets" :key="i">
-            <gear-set :gearSet="gearSet" />
+            <gear-set :gear-set="gearSet" />
           </template>
         </q-expansion-item>
       </q-card>
@@ -56,7 +56,7 @@
 
     <template v-else>
       <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
-        <template v-slot:avatar>
+        <template #avatar>
           <q-icon name="warning_amber" />
         </template>
         Character sets were not found. This log is probably broken or there is
@@ -81,7 +81,7 @@
 
     <template v-else>
       <q-banner :class="$q.dark.isActive ? 'bg-yellow-8' : 'bg-yellow-3'">
-        <template v-slot:avatar>
+        <template #avatar>
           <q-icon name="warning_amber" />
         </template>
         Character glyphs were not found. This log is probably broken or there is
@@ -99,6 +99,7 @@ import GearSet from 'components/GearSet.vue';
 import Glyph from 'components/Glyph.vue';
 import Skill from 'components/Skill.vue';
 export default defineComponent({
+  name: 'UptimesItem',
   components: { GearSet, Glyph, Skill },
   props: {
     fight: {
@@ -106,7 +107,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['changeTarget'],
+  emits: ['change-target'],
   setup(props, { emit }) {
     interface Option {
       label: string;
@@ -141,7 +142,7 @@ export default defineComponent({
       uptimesLoading.value = true;
 
       if (!props.fight.chars[charId][option.label]) {
-        emit('changeTarget', option.value, option.label, finalize);
+        emit('change-target', option.value, option.label, finalize);
       } else {
         finalize(option.label);
       }

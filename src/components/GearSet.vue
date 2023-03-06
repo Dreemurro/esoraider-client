@@ -6,14 +6,14 @@
     expand-separator
     :content-inset-level="1"
   >
-    <template v-slot:header>
+    <template #header>
       <q-item-section avatar class="items-center justify-center">
         <q-avatar square size="sm">
           <q-img :src="`${gearSet.icon}`" />
         </q-avatar>
       </q-item-section>
       <q-item-section>{{ gearSet.name }}</q-item-section>
-      <template v-if="gearSet.uptime !== null">
+      <template v-if="gearSet.uptime !== undefined">
         <q-item-section class="col-1 items-end">
           {{ gearSet.uptime }}%
         </q-item-section>
@@ -40,6 +40,7 @@ export default defineComponent({
   props: {
     gearSet: {
       type: Object as PropType<GearSet>,
+      required: true,
     },
   },
 });

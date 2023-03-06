@@ -11,7 +11,7 @@
 import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 export default defineComponent({
-  name: 'dark-mode',
+  name: 'DarkMode',
   setup() {
     const $q = useQuasar();
     const state = ref(false);

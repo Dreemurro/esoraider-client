@@ -27,10 +27,11 @@ import { defineComponent, PropType } from 'vue';
 import { GroupedFights } from './models';
 
 export default defineComponent({
-  name: 'zone-card',
+  name: 'ZoneCard',
   props: {
     groupedFights: {
       type: Object as PropType<GroupedFights>,
+      required: true,
     },
   },
 });

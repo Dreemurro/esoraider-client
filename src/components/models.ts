@@ -183,6 +183,7 @@ export interface Stack {
   max_stacks: number;
   type_: string;
   uptime: Record<number, number>;
+  uptimes?: number[];
   buffs?: Buff[];
   debuffs?: Buff[];
 }
@@ -204,6 +205,7 @@ export interface Skill {
   debuffs?: Buff[];
   advice?: string;
   link: string;
+  icon: string;
   children?: Skill[];
   uptime?: number;
   optimal_uptime?: number;

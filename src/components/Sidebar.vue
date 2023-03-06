@@ -42,6 +42,6 @@ import DarkMode from './DarkMode.vue';
 import ViewOnEsoLogs from './ViewOnEsoLogs.vue';
 export default {
   components: { Breadcrumbs, DarkMode, ViewOnEsoLogs },
-  name: 'Sidebar',
+  name: 'SidebarItem',
 };
 </script>

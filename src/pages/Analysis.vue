@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="q-gutter-sm">
     <q-banner :class="$q.dark.isActive ? 'bg-blue-8' : 'bg-blue-3'">
-      <template v-slot:avatar>
+      <template #avatar>
         <q-icon name="lightbulb" />
       </template>
       Have any suggestions (like new sets to track) or want to report bugs /
@@ -32,7 +32,7 @@
         <q-tab-panels v-model="currentTab" keep-alive>
           <q-tab-panel name="uptimes" class="q-pa-md q-gutter-md">
             <template v-if="Object.keys(currentFight).length !== 0">
-              <uptimes :fight="currentFight" @changeTarget="analysisRequest" />
+              <uptimes :fight="currentFight" @change-target="analysisRequest" />
             </template>
           </q-tab-panel>
           <q-tab-panel name="checklist">
@@ -58,7 +58,7 @@ import ErrorBanner from 'components/ErrorBanner.vue';
 import Uptimes from 'components/Uptimes.vue';
 
 export default defineComponent({
-  name: 'analysis',
+  name: 'AnalysisPage',
   components: { Checklist, ErrorBanner, Uptimes },
   setup() {
     const $store = useStore();

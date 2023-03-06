@@ -6,7 +6,7 @@
     expand-separator
     :content-inset-level="1"
   >
-    <template v-slot:header>
+    <template #header>
       <q-item-section avatar class="items-center justify-center">
         <q-avatar square size="sm">
           <q-img :src="`${skill.icon}`" />
@@ -15,7 +15,7 @@
       <q-item-section>
         <q-item-label>{{ skill.name }}</q-item-label>
       </q-item-section>
-      <template v-if="skill.uptime !== null">
+      <template v-if="skill.uptime !== undefined">
         <q-item-section class="col-1 items-end">
           <template v-if="skill.uptime > 100">
             <em>{{ skill.uptime }}%</em>
@@ -60,10 +60,12 @@ import { defineComponent, PropType } from 'vue';
 import { Skill } from './models';
 import Buff from './Buff.vue';
 export default defineComponent({
+  name: 'SkillItem',
   components: { Buff },
   props: {
     skill: {
       type: Object as PropType<Skill>,
+      required: true,
     },
   },
 });

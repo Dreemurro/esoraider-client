@@ -6,7 +6,7 @@
     expand-separator
     :content-inset-level="1"
   >
-    <template v-slot:header>
+    <template #header>
       <q-item-section avatar class="items-center justify-center">
         <q-avatar square size="sm">
           <q-img :src="`${glyph.icon}`" />
@@ -15,7 +15,7 @@
       <q-item-section>
         <q-item-label>{{ glyph.name }}</q-item-label>
       </q-item-section>
-      <template v-if="glyph.uptime !== null">
+      <template v-if="glyph.uptime !== undefined">
         <q-item-section class="col-1 items-end">
           {{ glyph.uptime }}%
         </q-item-section>
@@ -49,10 +49,12 @@ import { defineComponent, PropType } from 'vue';
 import { Glyph } from './models';
 import Buff from './Buff.vue';
 export default defineComponent({
+  name: 'GlyphItem',
   components: { Buff },
   props: {
     glyph: {
       type: Object as PropType<Glyph>,
+      required: true,
     },
   },
 });

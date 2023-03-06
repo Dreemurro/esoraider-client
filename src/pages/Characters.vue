@@ -11,7 +11,7 @@
     <template v-else>
       <template v-if="brokenFight">
         <q-banner :class="$q.dark.isActive ? 'bg-red-8' : 'bg-red-3'">
-          <template v-slot:avatar>
+          <template #avatar>
             <q-icon name="error_outline" />
           </template>
           This fight is broken - characters' gear/skills are not logged
@@ -20,7 +20,7 @@
 
       <fight-report />
 
-      <template v-for="(spec, i) in specs" :key="i">
+      <template v-for="(spec, spec_num) in specs" :key="spec_num">
         <q-card bordered>
           <q-item>
             <q-item-section avatar>
@@ -36,8 +36,8 @@
           <q-separator />
 
           <q-item
-            v-for="(player, i) in spec.players"
-            :key="i"
+            v-for="(player, player_num) in spec.players"
+            :key="player_num"
             :to="{ name: 'Analysis', params: { char: `${player.id}` } }"
             dense
             :disable="brokenFight"
@@ -69,14 +69,14 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'src/store';
-import { CharacterInfo } from 'components/models';
+import { CharacterInfo, Fight } from 'components/models';
 import { AxiosError } from 'axios';
 import { useMeta } from 'quasar';
 import ErrorBanner from 'components/ErrorBanner.vue';
 import FightReport from 'components/FightReport.vue';
 
 export default defineComponent({
-  name: 'characters',
+  name: 'CharactersPage',
   components: { ErrorBanner, FightReport },
   setup() {
     interface Spec {
@@ -88,7 +88,7 @@ export default defineComponent({
     const $store = useStore();
     const title = ref('');
     const loading = ref(true);
-    const currentFight = ref({});
+    const currentFight = ref({} as Fight);
     const brokenFight = ref(false);
     const error = ref({} as AxiosError);
     const specs = ref([] as Spec[]);
@@ -100,7 +100,7 @@ export default defineComponent({
       };
     });
 
-    const icons = {
+    const icons: Record<string, Record<string, string>> = {
       Sorcerer: {
         Tank: 'images/class/sorcerer/tank.webp',
         Healer: 'images/class/sorcerer/healer.webp',
@@ -163,7 +163,7 @@ export default defineComponent({
       }
 
       const currentLog = $store.state.eso.logs[logCode];
-      const requestedFight = currentLog.fights[fightId];
+      const requestedFight: Fight = currentLog.fights[fightId];
       currentFight.value = requestedFight;
 
       let fightName = currentLog.data.fights.find(
