@@ -5,9 +5,10 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from 'vue-router';
-import { StateInterface } from '../store';
-import routes from './routes';
 
+import { useESOLogsStore } from 'src/stores/esoLogs';
+
+import routes from './routes';
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -17,7 +18,7 @@ import routes from './routes';
  * with the Router instance.
  */
 
-export default route<StateInterface>(function (store) {
+export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -31,11 +32,12 @@ export default route<StateInterface>(function (store) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
   Router.beforeEach((to, from, next) => {
-    store.store.commit('eso/setRoute', to);
+    const ESOLogsStore = useESOLogsStore();
+    ESOLogsStore.setRoute(to);
     next();
   });
 
