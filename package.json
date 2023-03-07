@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.15.11",
+    "@sentry/tracing": "^7.41.0",
+    "@sentry/vue": "^7.41.0",
     "axios": "^1.3.4",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
