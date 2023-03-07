@@ -11,11 +11,11 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 export default defineComponent({
   name: 'BreadcrumbList',
   setup() {
-    const $store = useStore();
+    const $store = useESOLogsStore();
 
     const breadcrumbs = computed(() => {
       // TODO: Split and move to store
@@ -25,15 +25,15 @@ export default defineComponent({
       };
       let breadcrumbsArray: Breadcrumb[] = [];
 
-      const logCode = <string>$store.state.eso.route.params.log;
-      const currentLog = $store.state.eso.logs[logCode];
+      const logCode = <string>$store.route.params.log;
+      const currentLog = $store.logs[logCode];
       if (logCode && currentLog) {
         const label = currentLog.data.title;
         const link = `/${logCode}`;
         breadcrumbsArray.push({ label: label, link: link });
       } else return breadcrumbsArray;
 
-      let fightId = Number($store.state.eso.route.params.fight);
+      let fightId = Number($store.route.params.fight);
       const currentFight = currentLog.fights[fightId];
       if (fightId && currentFight) {
         const fight = currentLog.data.fights.find((x) => x.id === fightId);
@@ -45,7 +45,7 @@ export default defineComponent({
         breadcrumbsArray.push({ label: label, link: link });
       } else return breadcrumbsArray;
 
-      let charId = Number($store.state.eso.route.params.char);
+      let charId = Number($store.route.params.char);
       if (charId && currentFight) {
         const char = currentFight.data.composition.find((x) => x.id === charId);
         const label = char ? char.name : '';

@@ -19,7 +19,7 @@ import { useMeta } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 
 const metaData = {
   title: 'ESO Raider',
@@ -28,7 +28,7 @@ const metaData = {
 export default defineComponent({
   name: 'LogInput',
   setup() {
-    const $store = useStore();
+    const $store = useESOLogsStore();
     const router = useRouter();
     const logLink = ref('');
     const loading = ref(false);
@@ -59,18 +59,18 @@ export default defineComponent({
 
       let { code, fight, source } = matched.groups;
 
-      await $store.dispatch('eso/requestLog', code);
-      if (Object.keys($store.state.eso.error).length !== 0) {
+      await $store.requestLog(code);
+      if (Object.keys($store.error).length !== 0) {
         loading.value = false;
-        errorMessage.value = $store.state.eso.error.response
-          ? <string>$store.state.eso.error.response.data
-          : $store.state.eso.error.message;
+        errorMessage.value = $store.error.response
+          ? <string>$store.error.response.data
+          : $store.error.message;
         error.value = true;
         return;
       }
 
       if (fight === 'last') {
-        const currentLog = $store.state.eso.logs[code];
+        const currentLog = $store.logs[code];
         const n_fights = currentLog.data.fights.length;
         fight = String(currentLog.data.fights[n_fights - 1].id);
       }

@@ -56,7 +56,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 
 import Buff from './Buff.vue';
 import { AnalysisInfo } from './models';
@@ -65,7 +65,7 @@ export default defineComponent({
   components: { Buff },
   name: 'FightReport',
   setup() {
-    const $store = useStore();
+    const $store = useESOLogsStore();
     const route = useRoute();
     const loading = ref(false);
     const report = ref({} as AnalysisInfo);
@@ -74,13 +74,13 @@ export default defineComponent({
     const fightId = Number(route.params.fight);
 
     const getReport = () => {
-      const fight = $store.state.eso.logs[logCode].fights[fightId];
+      const fight = $store.logs[logCode].fights[fightId];
       if (fight.report) report.value = fight.report;
     };
 
     const reportRequest = async () => {
       loading.value = true;
-      await $store.dispatch('eso/requestFightReport', {
+      await $store.requestFightReport({
         log: logCode,
         fight: fightId,
       });

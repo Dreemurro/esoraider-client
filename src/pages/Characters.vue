@@ -74,7 +74,7 @@ import { useRoute } from 'vue-router';
 import ErrorBanner from 'components/ErrorBanner.vue';
 import FightReport from 'components/FightReport.vue';
 import { CharacterInfo, Fight } from 'components/models';
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 
 export default defineComponent({
   name: 'CharactersPage',
@@ -86,7 +86,7 @@ export default defineComponent({
       players: CharacterInfo[];
     }
 
-    const $store = useStore();
+    const $store = useESOLogsStore();
     const title = ref('');
     const loading = ref(true);
     const currentFight = ref({} as Fight);
@@ -151,19 +151,19 @@ export default defineComponent({
 
       const logCode = <string>route.params.log;
       const fightId = Number(route.params.fight);
-      await $store.dispatch('eso/requestFight', {
+      await $store.requestFight({
         log: logCode,
         fight: fightId,
       });
 
-      error.value = $store.state.eso.error;
+      error.value = $store.error;
       if (Object.keys(error.value).length !== 0) {
         title.value = 'Error';
         loading.value = false;
         return;
       }
 
-      const currentLog = $store.state.eso.logs[logCode];
+      const currentLog = $store.logs[logCode];
       const requestedFight: Fight = currentLog.fights[fightId];
       currentFight.value = requestedFight;
 

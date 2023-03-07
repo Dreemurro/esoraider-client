@@ -39,7 +39,7 @@ import { useRoute } from 'vue-router';
 import { FightData, GroupedFights, Report } from 'components/models';
 import ZoneCard from 'components/ZoneCard.vue';
 import ErrorBanner from 'src/components/ErrorBanner.vue';
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 
 function grouping(fights: FightData[]): GroupedFights[] {
   const grouped: GroupedFights[] = _map(
@@ -53,7 +53,7 @@ export default defineComponent({
   components: { ZoneCard, ErrorBanner },
   name: 'FightsPage',
   setup() {
-    const $store = useStore();
+    const $store = useESOLogsStore();
     const title = ref('');
     const currentLog = ref({} as Report);
     const loading = ref(true);
@@ -82,16 +82,16 @@ export default defineComponent({
       const route = useRoute();
 
       const logCode = <string>route.params.log;
-      await $store.dispatch('eso/requestLog', logCode);
+      await $store.requestLog(logCode);
 
-      error.value = $store.state.eso.error;
+      error.value = $store.error;
       if (Object.keys(error.value).length !== 0) {
         title.value = 'Error';
         loading.value = false;
         return;
       }
 
-      const requestedLog = $store.state.eso.logs[logCode].data;
+      const requestedLog = $store.logs[logCode].data;
       currentLog.value = requestedLog;
       title.value = requestedLog.title;
       loading.value = false;

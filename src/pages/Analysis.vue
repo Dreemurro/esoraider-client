@@ -56,13 +56,13 @@ import Checklist from 'components/Checklist.vue';
 import ErrorBanner from 'components/ErrorBanner.vue';
 import { Fight, Rule } from 'components/models';
 import Uptimes from 'components/Uptimes.vue';
-import { useStore } from 'src/store';
+import { useESOLogsStore } from 'src/stores/esoLogs';
 
 export default defineComponent({
   name: 'AnalysisPage',
   components: { Checklist, ErrorBanner, Uptimes },
   setup() {
-    const $store = useStore();
+    const $store = useESOLogsStore();
     const route = useRoute();
 
     const title = ref('');
@@ -98,14 +98,14 @@ export default defineComponent({
       targetName?: string,
       done?: (targetName: string) => void
     ) => {
-      await $store.dispatch('eso/requestAnalysis', {
+      await $store.requestAnalysis({
         log: logCode,
         fight: fightId,
         char: charId,
         target: targetId,
       });
 
-      error.value = $store.state.eso.error;
+      error.value = $store.error;
       if (Object.keys(error.value).length !== 0) title.value = 'Error';
 
       if (targetId && targetName && done) done(targetName);
@@ -121,7 +121,7 @@ export default defineComponent({
         return;
       }
 
-      currentFight.value = $store.state.eso.logs[logCode].fights[fightId];
+      currentFight.value = $store.logs[logCode].fights[fightId];
       const report = currentFight.value.chars[charId]['Overall'].report;
       currentChecklist.value = report.checklist;
 
