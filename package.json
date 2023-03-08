@@ -30,11 +30,13 @@
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
     "@quasar/app-vite": "^1.0.0",
+    "@sentry/vite-plugin": "^0.4.0",
     "@types/lodash": "^4.14.170",
     "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.2",
+    "dotenv": "^16.0.3",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-import-resolver-typescript": "^3.5.3",
