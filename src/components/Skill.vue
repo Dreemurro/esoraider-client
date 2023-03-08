@@ -15,7 +15,7 @@
       <q-item-section>
         <q-item-label>{{ skill.name }}</q-item-label>
       </q-item-section>
-      <template v-if="skill.uptime !== undefined">
+      <template v-if="skill.uptime">
         <q-item-section class="col-1 items-end">
           <template v-if="skill.uptime > 100">
             <em>{{ skill.uptime }}%</em>
