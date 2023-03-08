@@ -12,6 +12,9 @@ const path = require('path');
 
 const { configure } = require('quasar/wrappers');
 
+// This will load from `.env` if it exists, but not override existing `process.env.*` values
+require('dotenv').config();
+
 module.exports = configure(function (ctx) {
   return {
     eslint: {
@@ -29,7 +32,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios'],
+    boot: ['i18n', 'axios', 'sentry'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -90,12 +93,30 @@ module.exports = configure(function (ctx) {
             include: path.resolve(__dirname, './src/i18n/**'),
           },
         ],
+        [
+          require('@sentry/vite-plugin'),
+          {
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            include: './dist',
+            // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
+            // and needs the `project:releases` and `org:read` scopes
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          },
+        ],
       ],
 
+      // https://github.com/quasarframework/quasar/issues/14589
+      sourcemap: 'true',
+
       env: {
-        API: ctx.dev
-          ? 'http://127.0.0.1:8000/'
-          : 'https://neuromancersh0me.asuscomm.com/', // TODO: env var
+        SENTRY_DSN: process.env.SENTRY_DSN,
+        SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
+        SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+        SENTRY_ORG: process.env.SENTRY_ORG,
+        SENTRY_PROJECT: process.env.SENTRY_PROJECT,
+        API_URL: process.env.API_URL,
+        API: ctx.dev ? 'http://127.0.0.1:8000/' : process.env.API_URL,
       },
     },
 
