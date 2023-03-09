@@ -1,0 +1,30 @@
+name: Create a new Sentry release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: '18.14.2'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build SPA
+        run: yarn build
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1.3.1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: './dist'
