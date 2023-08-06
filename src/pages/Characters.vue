@@ -102,6 +102,13 @@ export default defineComponent({
     });
 
     const icons: Record<string, Record<string, string>> = {
+      Arcanist: {
+        Tank: 'images/class/arcanist/tank.webp',
+        Healer: 'images/class/arcanist/healer.webp',
+        MagickaDPS: 'images/class/arcanist/magdd.webp',
+        StaminaDPS: 'images/class/arcanist/stamdd.webp',
+        Default: 'images/class/arcanist/default.webp',
+      },
       Sorcerer: {
         Tank: 'images/class/sorcerer/tank.webp',
         Healer: 'images/class/sorcerer/healer.webp',
