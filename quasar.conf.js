@@ -8,8 +8,6 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const path = require('path');
-
 const { configure } = require('quasar/wrappers');
 
 // This will load from `.env` if it exists, but not override existing `process.env.*` values
@@ -17,15 +15,6 @@ require('dotenv').config();
 
 module.exports = configure(function (ctx) {
   return {
-    eslint: {
-      // fix: true,
-      // include = [],
-      // exclude = [],
-      // rawOptions = {},
-      warnings: true,
-      errors: true,
-    },
-
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
 
@@ -56,7 +45,7 @@ module.exports = configure(function (ctx) {
     build: {
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-        node: 'node16',
+        node: 'node20',
       },
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
@@ -80,18 +69,16 @@ module.exports = configure(function (ctx) {
 
       vitePlugins: [
         [
-          '@intlify/vite-plugin-vue-i18n',
+          'vite-plugin-checker',
           {
-            // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
-            // compositionOnly: false,
-
-            // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
-            // you need to set `runtimeOnly: false`
-            // runtimeOnly: false,
-
-            // you need to set i18n resource including paths !
-            include: path.resolve(__dirname, './src/i18n/**'),
+            vueTsc: {
+              tsconfigPath: 'tsconfig.vue-tsc.json',
+            },
+            eslint: {
+              lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"',
+            },
           },
+          { server: false },
         ],
         [
           require('@sentry/vite-plugin'),
