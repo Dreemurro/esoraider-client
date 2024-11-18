@@ -195,7 +195,9 @@ export default defineComponent({
         players: requestedFight.data.playerDetails['dps'],
       });
 
-      const randomChar = requestedFight.data.playerDetails.dps[0];
+      const details = requestedFight.data.playerDetails;
+      const randomChar =
+        details.dps[0] || details.tanks[0] || details.healers[0];
       if (Object.keys(randomChar.combatantInfo || {}).length === 0)
         brokenFight.value = true;
 
