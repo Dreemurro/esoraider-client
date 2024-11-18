@@ -94,7 +94,7 @@ export default defineComponent({
     });
 
     const analysisRequest = async (
-      targetId?: number,
+      targetId?: number[],
       targetName?: string,
       done?: (targetName: string) => void
     ) => {
