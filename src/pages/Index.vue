@@ -62,8 +62,9 @@ export default defineComponent({
       await $store.requestLog(code);
       if (Object.keys($store.error).length !== 0) {
         loading.value = false;
-        errorMessage.value = $store.error.response
-          ? <string>$store.error.response.data
+        var errorData = $store.error.response?.data as { detail: string };
+        errorMessage.value = errorData['detail']
+          ? errorData['detail']
           : $store.error.message;
         error.value = true;
         return;
