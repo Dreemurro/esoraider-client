@@ -20,6 +20,7 @@ import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useESOLogsStore } from 'src/stores/esoLogs';
+import { ErrorDetails } from 'components/models';
 
 const metaData = {
   title: 'ESO Raider',
@@ -62,9 +63,9 @@ export default defineComponent({
       await $store.requestLog(code);
       if (Object.keys($store.error).length !== 0) {
         loading.value = false;
-        var errorData = $store.error.response?.data as { detail: string };
-        errorMessage.value = errorData['detail']
-          ? errorData['detail']
+        var errorData = $store.error.response?.data as ErrorDetails;
+        errorMessage.value = errorData.detail
+          ? errorData.detail
           : $store.error.message;
         error.value = true;
         return;

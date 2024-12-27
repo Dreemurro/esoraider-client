@@ -266,3 +266,7 @@ export interface AnalysisInfo {
   currentTarget?: Target;
   checklist: Rule[];
 }
+
+export interface ErrorDetails {
+  detail: string;
+}
